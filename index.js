@@ -30,6 +30,7 @@ connection.connect((err) => {
 function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
     const VIEW_DEPARTMENTS = "View departments";
+    const VIEW_ROLES = "View roles";
 
     inquirer
         .prompt({
@@ -39,6 +40,7 @@ function mainMenu() {
             choices: [
                 VIEW_EMPLOYEES,
                 VIEW_DEPARTMENTS,
+                VIEW_ROLES,
                 "EXIT",
             ],
         }).then((answer) => {
@@ -47,6 +49,9 @@ function mainMenu() {
             }
             if (answer.action === VIEW_DEPARTMENTS) {
                 return viewDepartments();
+            }
+            if (answer.action === VIEW_ROLES) {
+                return viewRoles();
             }
             connection.end();
         }).catch((error) => {
@@ -85,6 +90,22 @@ function viewDepartments() {
     SELECT departmentname FROM departments;
       `;
     connection.query(departSql, (error, results) => {
+        // display the results a formatted table
+        if (error) {
+            throw error;
+        }
+        console.table(results);
+        // go back to the menu
+        mainMenu();
+    });
+}
+
+function viewRoles() {
+    //get all the employees
+    const roleSql = `
+    SELECT roleTitle FROM roles_emp;
+      `;
+    connection.query(roleSql, (error, results) => {
         // display the results a formatted table
         if (error) {
             throw error;
