@@ -17,7 +17,7 @@ VALUES
 INSERT INTO roles_emp (roleTitle, roleSalary, deptID) 
 VALUES 
 ("Associate Writer", 30000,5),
-("Engineer Manager", 60000,2), 
+("Engineering Manager", 60000,2), 
 ("Operations Senior Manager", 120000,1), 
 ("Researcher",700000,2),
 ("Sales Manager",900000,4), 

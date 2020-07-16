@@ -31,6 +31,7 @@ function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
     const VIEW_DEPARTMENTS = "View departments";
     const VIEW_ROLES = "View roles";
+    const ADD_DEPARTMENT = "Add a new department";
 
     inquirer
         .prompt({
@@ -41,6 +42,7 @@ function mainMenu() {
                 VIEW_EMPLOYEES,
                 VIEW_DEPARTMENTS,
                 VIEW_ROLES,
+                ADD_DEPARTMENT,
                 "EXIT",
             ],
         }).then((answer) => {
@@ -53,14 +55,15 @@ function mainMenu() {
             if (answer.action === VIEW_ROLES) {
                 return viewRoles();
             }
+            if (answer.action === ADD_DEPARTMENT) {
+                return addDepartment();
+            }
             connection.end();
         }).catch((error) => {
             console.log(error);
             connection.end();
         });
 }
-
-
 
 function viewEmployees() {
     // query db for employees joined with roles and department
@@ -85,7 +88,7 @@ function viewEmployees() {
 }
 
 function viewDepartments() {
-    //get all the employees
+    //get all the departments
     const departSql = `
     SELECT departmentname FROM departments;
       `;
@@ -101,7 +104,7 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-    //get all the employees
+    //get all the roles
     const roleSql = `
     SELECT roleTitle FROM roles_emp;
       `;
@@ -114,4 +117,26 @@ function viewRoles() {
         // go back to the menu
         mainMenu();
     });
+}
+
+function addDepartment() {
+    //prompt user for input
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Enter new department name",
+                name: "departmentName",
+            }]).then((answers) => {
+                const deptSQL = "INSERT INTO departments(departmentName) VALUES (?) ";
+                 connection.query(deptSQL, answers.departmentName, (error, results) => {
+                    // display the results a formatted table
+                    if (error) {
+                        throw error;
+                    }
+                    console.log(answers.departmentName + " department added!");
+                    // go back to the menu
+                    mainMenu();
+                });
+            });
 }
