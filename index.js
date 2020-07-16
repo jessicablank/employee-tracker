@@ -32,6 +32,7 @@ function mainMenu() {
     const VIEW_DEPARTMENTS = "View departments";
     const VIEW_ROLES = "View roles";
     const ADD_DEPARTMENT = "Add a new department";
+    const ADD_ROLE = "ADD a new employee role";
 
     inquirer
         .prompt({
@@ -43,6 +44,7 @@ function mainMenu() {
                 VIEW_DEPARTMENTS,
                 VIEW_ROLES,
                 ADD_DEPARTMENT,
+                ADD_ROLE,
                 "EXIT",
             ],
         }).then((answer) => {
@@ -57,6 +59,9 @@ function mainMenu() {
             }
             if (answer.action === ADD_DEPARTMENT) {
                 return addDepartment();
+            }
+            if (answer.action === ADD_ROLE) {
+                return addRole();
             }
             connection.end();
         }).catch((error) => {
@@ -129,8 +134,8 @@ function addDepartment() {
                 name: "departmentName",
             }]).then((answers) => {
                 const deptSQL = "INSERT INTO departments(departmentName) VALUES (?) ";
-                 connection.query(deptSQL, answers.departmentName, (error, results) => {
-                    // display the results a formatted table
+                connection.query(deptSQL, answers.departmentName, (error, results) => {
+                  
                     if (error) {
                         throw error;
                     }
@@ -140,3 +145,52 @@ function addDepartment() {
                 });
             });
 }
+
+function addRole() {
+    //create a new id from department table due to FK
+    connection.query("SELECT * FROM departments", (err, res) => {
+        if (err) {
+            throw err;
+        }
+        const deptNames = res.map((row) => row.departmentName);
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Enter new role name:",
+                    name: "roleTitle",
+                },
+                {
+                    type: "input",
+                    message: "Enter the new role's salary (numbers only):",
+                    name: "salary",
+                },
+                {
+                    type: "list",
+                    message: "Select department for this new role:",
+                    name: "department",
+                    choices: deptNames,
+                }
+            ]).then((answers) => {
+                const chosenDept = res.find((row) => row.departmentName === answers.department);
+
+                const roleQuery = "INSERT INTO roles_emp SET ? ";
+                connection.query(roleQuery,
+                    {
+                        roleTitle: answers.roleTitle,
+                        roleSalary: answers.salary,
+                        deptID: chosenDept.id
+                    },
+                    (error, results) => {
+                        
+                        if (error) {
+                            throw error;
+                        }
+                        console.log(answers.roleTitle + " role added!");
+                        // go back to the menu
+                        mainMenu();
+                    });
+                });
+        });
+    
+    }
