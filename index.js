@@ -1,7 +1,7 @@
 // import dependencies (mysql, inquirer, console.table)
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-//const cTable = require("console.table");
+const cTable = require("console.table");
 
 // create a mysql connection
 const connection = mysql.createConnection({
@@ -29,8 +29,8 @@ connection.connect((err) => {
 
 function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
-    const VIEW_DEPARTMENTS = "View departments";
-    const VIEW_ROLES = "View roles";
+    const VIEW_DEPARTMENTS = "View all departments";
+    const VIEW_ROLES = "View all roles";
     const ADD_EMPLOYEE = "Add a new employee";
     const ADD_DEPARTMENT = "Add a new department";
     const ADD_ROLE = "Add a new role";
