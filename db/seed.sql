@@ -33,18 +33,18 @@ VALUES
 -- Salesperson: 6
 -- Security Manager: 7
 
-INSERT INTO employee_data (firstName, lastName, roleID) 
+INSERT INTO employee_data (firstName, lastName, roleID, deptID) 
 VALUES 
-("Jake", "Sisko",1),
-("Miles", "O'Brien",2), 
-("Benjamin", "Sisko",3),
-("Jadzia", "Dax",4),  
-("Keiko", "O'Brien",4),
-("Quark", "Shimerman",5),
-("Garak", "Elim",5),
-("Leeta", "Adams",6),
-("Odo", "Auberjonois",7),
-("Worf", "Martok",7);
+("Jake", "Sisko",1,5),
+("Miles", "O'Brien",2,2), 
+("Benjamin", "Sisko",3,1),
+("Jadzia", "Dax",4,2),  
+("Keiko", "O'Brien",4,2),
+("Quark", "Shimerman",5,4),
+("Garak", "Elim",5,3),
+("Leeta", "Adams",6,4),
+("Odo", "Auberjonois",7,3),
+("Worf", "Martok",7,3);
 
 
 

@@ -23,9 +23,10 @@ CREATE TABLE employee_data(
   firstName VARCHAR(30),
   lastName VARCHAR(30),
   roleID INT NOT NULL,
-
+  deptID INT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (roleID) REFERENCES roles_emp(id)
+  FOREIGN KEY (roleID) REFERENCES roles_emp(id),
+  FOREIGN KEY (deptID) REFERENCES departments(id)
 );
 
 --  managerID INT,

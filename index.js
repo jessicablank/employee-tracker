@@ -29,6 +29,7 @@ connection.connect((err) => {
 
 function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
+    const VIEW_EMPBYDEPARTMENT = "View all employees by Department";
 
     inquirer
         .prompt({
@@ -43,6 +44,9 @@ function mainMenu() {
             if (answer.action === VIEW_EMPLOYEES) {
                 return viewEmployees();
             }
+            if (answer.action === VIEW_EMPBYDEPARTMENT) {
+                return viewEmployeesbyDept();
+            }
             connection.end();
         }).catch((error) => {
             console.log(error);
@@ -53,11 +57,37 @@ function mainMenu() {
 
 
 function viewEmployees() {
-    // query db for employees joined with roles
+    // query db for employees joined with roles and department
     const sqlString = `
-    SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) 
-AS Name, roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary
-FROM employee_data INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id;
+    SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) AS Name, 
+    roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary, 
+    departments.departmentName as Department
+    
+    FROM employee_data 
+    INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id
+    INNER JOIN departments ON employee_data.deptID = departments.id;
+      `;
+    connection.query(sqlString, (error, results) => {
+        // display the results a formatted table
+        if (error) {
+            throw error;
+        }
+        console.table(results);
+        // go back to the menu
+        mainMenu();
+    });
+}
+
+function viewEmployeesbyDept() {
+    // query db for employees joined with
+    const sqlString = `
+    SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) AS Name, 
+    roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary, 
+    departments.departmentName as Department
+    
+    FROM employee_data 
+    INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id
+    INNER JOIN departments ON employee_data.deptID = departments.id;
       `;
     connection.query(sqlString, (error, results) => {
         // display the results a formatted table
