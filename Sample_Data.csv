@@ -1,13 +1,13 @@
 ﻿emp_id,first_name,last_name,title,department,salary,manager
-9,Jadzia,Dax,Manager,Engineering & Research," $90,000.00 ",Benjamin Sisko
-10,Miles,O'Brien,Manager,Engineering & Research," $85,000.00 ",Jadzia Dax
-11,Keiko,O'Brien,Associate,Engineering & Research," $70,000.00 ",Jadzia Dax
-2,Vic,Fontaine,Lead Singer,Hospitality," $50,000.00 ",Quark Shimerman
-3,Garak,Elim,Manager,Operations," $50,000.00 ",Benjamin Sisko
-6,Benjamin ,Sisko,Senior Manager,Operations," $500,000.00 ",null
-12,Kiera,Nerys,Manager,Operations," $65,000.00 ",Benjamin Sisko
-8,Jake,Sisko,Associate,Public Relations," $25,000.00 ",Benjamin Sisko
-5,Leeta,Adams,Sales Lead,Sales," $60,000.00 ",Quark Shimerman
-7,Quark,Shimerman ,Manager,Sales," $150,000.00 ",Benjamin Sisko
-1,Odo,Auberjonois, Manager,Security," $100,000.00 ",Worf Martok
-4,Worf,Martok,Senior Manager,Security," $250,000.00 ",Benjamin Sisko
+8,Jake,Sisko,Associate Writer,Public Relations,25000,Benjamin Sisko
+10,Miles,O'Brien,Engineer Manager,Engineering & Research,85000,Jadzia Dax
+2,Vic,Fontaine,Lead Singer,Hospitality,50000,Quark Shimerman
+6,Benjamin ,Sisko,Operations Senior Manager,Operations,500000,null
+9,Jadzia,Dax,Researcher,Engineering & Research,90000,Benjamin Sisko
+11,Keiko,O'Brien,Researcher,Engineering & Research,70000,Jadzia Dax
+7,Quark,Shimerman ,Sales Manager,Sales,150000,Benjamin Sisko
+3,Garak,Elim,Sales Manager,Sales,50000,Benjamin Sisko
+5,Leeta,Adams,Salesperson,Sales,60000,Quark Shimerman
+1,Odo,Auberjonois,Security Manager,Security,100000,Worf Martok
+12,Kiera,Nerys,Security Manager,Operations,65000,Benjamin Sisko
+4,Worf,Martok,Security Manager,Security,250000,Benjamin Sisko
