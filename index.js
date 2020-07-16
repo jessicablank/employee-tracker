@@ -29,7 +29,7 @@ connection.connect((err) => {
 
 function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
-    const VIEW_EMPBYDEPARTMENT = "View all employees by Department";
+    const VIEW_DEPARTMENTS = "View departments";
 
     inquirer
         .prompt({
@@ -38,14 +38,15 @@ function mainMenu() {
             message: "What would you like to do?",
             choices: [
                 VIEW_EMPLOYEES,
+                VIEW_DEPARTMENTS,
                 "EXIT",
             ],
         }).then((answer) => {
             if (answer.action === VIEW_EMPLOYEES) {
                 return viewEmployees();
             }
-            if (answer.action === VIEW_EMPBYDEPARTMENT) {
-                return viewEmployeesbyDept();
+            if (answer.action === VIEW_DEPARTMENTS) {
+                return viewDepartments();
             }
             connection.end();
         }).catch((error) => {
@@ -78,18 +79,12 @@ function viewEmployees() {
     });
 }
 
-function viewEmployeesbyDept() {
-    // query db for employees joined with
-    const sqlString = `
-    SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) AS Name, 
-    roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary, 
-    departments.departmentName as Department
-    
-    FROM employee_data 
-    INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id
-    INNER JOIN departments ON employee_data.deptID = departments.id;
+function viewDepartments() {
+    //get all the employees
+    const departSql = `
+    SELECT departmentname FROM departments;
       `;
-    connection.query(sqlString, (error, results) => {
+    connection.query(departSql, (error, results) => {
         // display the results a formatted table
         if (error) {
             throw error;
