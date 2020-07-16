@@ -1,4 +1,5 @@
--- Departments as of 15 July 2020 --
+-- Starter Data on 15 July 2020 --
+
 INSERT INTO departments (departmentName) 
 VALUES 
 ("Operations"),
@@ -7,12 +8,6 @@ VALUES
 ("Sales"), 
 ("Public Relations"); 
 
--- deptID Reference --
--- Operations: 1
--- Engineers & Research: 2
--- Security: 3
--- Sales: 4
--- Public Relations: 5
 
 INSERT INTO roles_emp (roleTitle, roleSalary, deptID) 
 VALUES 
@@ -24,29 +19,24 @@ VALUES
 ("Salesperson",700000,4), 
 ("Security Manager",700000,3);
 
--- roleID Reference --
--- Associate Writer: 1
--- Engineering Manager: 2
--- Operations Senior Manager: 3
--- Researcher: 4
--- Sales Manager: 5
--- Salesperson: 6
--- Security Manager: 7
 
-INSERT INTO employee_data (firstName, lastName, roleID, deptID, managerID) 
+
+INSERT INTO employee_data (firstName, lastName, roleID, deptID) 
 VALUES 
-("Jake", "Sisko",1,5,3),
-("Miles", "O'Brien",2,2,3), 
+("Jake", "Sisko",1,5),
+("Miles", "O'Brien",2,2), 
 ("Benjamin", "Sisko",3,3),
-("Jadzia", "Dax",4,2,2),  
-("Keiko", "O'Brien",4,2,2),
-("Quark", "Shimerman",5,4,9),
-("Garak", "Elim",5,3,9),
-("Leeta", "Adams",6,4,6),
-("Odo", "Auberjonois",7,3,3),
-("Worf", "Martok",7,3,3);
+("Jadzia", "Dax",4,2),  
+("Keiko", "O'Brien",4,2),
+("Quark", "Shimerman",5,4),
+("Garak", "Elim",5,3),
+("Leeta", "Adams",6,4),
+("Odo", "Auberjonois",7,3),
+("Worf", "Martok",7,3);
 
-
+UPDATE employee_data
+SET managerID = 13
+WHERE id = 11;
 
 
 

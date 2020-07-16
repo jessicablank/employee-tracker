@@ -79,12 +79,15 @@ function viewEmployees() {
     // query db for employees joined with roles and department
     const sqlString = `
     SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) AS Name, 
-    roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary, 
-    departments.departmentName as Department
+    roles_emp.roleTitle as Role, 
+    roles_emp.roleSalary as Salary, 
+    departments.departmentName as Department,
+    roles_emp.managerID as Manager
     
     FROM employee_data 
     INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id
-    INNER JOIN departments ON employee_data.deptID = departments.id;
+    INNER JOIN departments ON employee_data.deptID = departments.id
+    INNER JOIN employee_data ON employee_data.managerID = employee_data.id;
       `;
     connection.query(sqlString, (error, results) => {
         // display the results a formatted table
