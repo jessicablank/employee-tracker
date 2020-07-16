@@ -31,8 +31,9 @@ function mainMenu() {
     const VIEW_EMPLOYEES = "View all employees";
     const VIEW_DEPARTMENTS = "View departments";
     const VIEW_ROLES = "View roles";
+    const ADD_EMPLOYEE = "Add a new employee";
     const ADD_DEPARTMENT = "Add a new department";
-    const ADD_ROLE = "ADD a new employee role";
+    const ADD_ROLE = "Add a new role";
 
     inquirer
         .prompt({
@@ -43,6 +44,7 @@ function mainMenu() {
                 VIEW_EMPLOYEES,
                 VIEW_DEPARTMENTS,
                 VIEW_ROLES,
+                ADD_EMPLOYEE,
                 ADD_DEPARTMENT,
                 ADD_ROLE,
                 "EXIT",
@@ -56,6 +58,9 @@ function mainMenu() {
             }
             if (answer.action === VIEW_ROLES) {
                 return viewRoles();
+            }
+            if (answer.action === ADD_EMPLOYEE) {
+                return addEmployee();
             }
             if (answer.action === ADD_DEPARTMENT) {
                 return addDepartment();
@@ -123,7 +128,69 @@ function viewRoles() {
         mainMenu();
     });
 }
+function addEmployee() {
+    //create a new id from department table & role table due to FK
+    connection.query("SELECT * FROM departments", (err, deptRes) => {
+        if (err) {
+            throw err;
+        }
+        const deptNames = deptRes.map((row) => row.departmentName);
 
+        connection.query("SELECT * FROM roles_emp", (err, rolesRes) => {
+            if (err) {
+                throw err;
+            }
+            const roleNames = rolesRes.map((row) => row.roleTitle)
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Enter new employee first name:",
+                    name: "firstName",
+                },
+                {
+                    type: "input",
+                    message: "Enter the new employee last name:",
+                    name: "lastName",
+                },
+                {
+                    type: "list",
+                    message: "Select department for this new employee:",
+                    name: "department",
+                    choices: deptNames,
+                },
+                {
+                    type: "list",
+                    message: "Select role for this new employee:",
+                    name: "role",
+                    choices: roleNames,
+                }
+            ]).then((answers) => {
+                const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
+                const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
+
+                const empQuery = "INSERT INTO employee_data SET ? ";
+                connection.query(empQuery,
+                    {
+                        firstName: answers.firstName,
+                        lastName: answers.lastName,
+                        roleID: chosenRole.id,
+                        deptID: chosenDept.id
+                    },
+                    (error, results) => {
+                        
+                        if (error) {
+                            throw error;
+                        }
+                        console.log(answers.firstName + "" + answers.lastName + " added!");
+                        // go back to the menu
+                        mainMenu();
+                    });
+                });
+        });
+    
+    });
+}
 function addDepartment() {
     //prompt user for input
     inquirer
