@@ -78,16 +78,11 @@ function mainMenu() {
 function viewEmployees() {
     // query db for employees joined with roles and department
     const sqlString = `
-    SELECT CONCAT(employee_data.firstName, " ", employee_data.lastName) AS Name, 
-    roles_emp.roleTitle as Role, 
-    roles_emp.roleSalary as Salary, 
-    departments.departmentName as Department,
-    roles_emp.managerID as Manager
-    
-    FROM employee_data 
-    INNER JOIN roles_emp ON employee_data.roleID = roles_emp.id
-    INNER JOIN departments ON employee_data.deptID = departments.id
-    INNER JOIN employee_data ON employee_data.managerID = employee_data.id;
+    SELECT CONCAT(e.firstName, " ", e.lastName) AS Name, roles_emp.roleTitle as Role, roles_emp.roleSalary as Salary, departments.departmentName as Department, CONCAT(m.firstName, " ", m.lastName) AS Manager
+    FROM employee_data e 
+    INNER JOIN roles_emp ON e.roleID = roles_emp.id 
+    INNER JOIN departments ON e.deptID = departments.id 
+    INNER JOIN employee_data m ON e.managerID = m.id;
       `;
     connection.query(sqlString, (error, results) => {
         // display the results a formatted table
@@ -103,7 +98,7 @@ function viewEmployees() {
 function viewDepartments() {
     //get all the departments
     const departSql = `
-    SELECT departmentname FROM departments;
+    SELECT departmentName AS Departments FROM departments;
       `;
     connection.query(departSql, (error, results) => {
         // display the results a formatted table
@@ -144,54 +139,54 @@ function addEmployee() {
                 throw err;
             }
             const roleNames = rolesRes.map((row) => row.roleTitle)
-        inquirer
-            .prompt([
-                {
-                    type: "input",
-                    message: "Enter new employee first name:",
-                    name: "firstName",
-                },
-                {
-                    type: "input",
-                    message: "Enter the new employee last name:",
-                    name: "lastName",
-                },
-                {
-                    type: "list",
-                    message: "Select department for this new employee:",
-                    name: "department",
-                    choices: deptNames,
-                },
-                {
-                    type: "list",
-                    message: "Select role for this new employee:",
-                    name: "role",
-                    choices: roleNames,
-                }
-            ]).then((answers) => {
-                const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
-                const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
-
-                const empQuery = "INSERT INTO employee_data SET ? ";
-                connection.query(empQuery,
+            inquirer
+                .prompt([
                     {
-                        firstName: answers.firstName,
-                        lastName: answers.lastName,
-                        roleID: chosenRole.id,
-                        deptID: chosenDept.id
+                        type: "input",
+                        message: "Enter new employee first name:",
+                        name: "firstName",
                     },
-                    (error, results) => {
-                        
-                        if (error) {
-                            throw error;
-                        }
-                        console.log(answers.firstName + "" + answers.lastName + " added!");
-                        // go back to the menu
-                        mainMenu();
-                    });
+                    {
+                        type: "input",
+                        message: "Enter the new employee last name:",
+                        name: "lastName",
+                    },
+                    {
+                        type: "list",
+                        message: "Select department for this new employee:",
+                        name: "department",
+                        choices: deptNames,
+                    },
+                    {
+                        type: "list",
+                        message: "Select role for this new employee:",
+                        name: "role",
+                        choices: roleNames,
+                    }
+                ]).then((answers) => {
+                    const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
+                    const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
+
+                    const empQuery = "INSERT INTO employee_data SET ? ";
+                    connection.query(empQuery,
+                        {
+                            firstName: answers.firstName,
+                            lastName: answers.lastName,
+                            roleID: chosenRole.id,
+                            deptID: chosenDept.id
+                        },
+                        (error, results) => {
+
+                            if (error) {
+                                throw error;
+                            }
+                            console.log(answers.firstName + "" + answers.lastName + " added!");
+                            // go back to the menu
+                            mainMenu();
+                        });
                 });
         });
-    
+
     });
 }
 function addDepartment() {
@@ -205,7 +200,7 @@ function addDepartment() {
             }]).then((answers) => {
                 const deptSQL = "INSERT INTO departments(departmentName) VALUES (?) ";
                 connection.query(deptSQL, answers.departmentName, (error, results) => {
-                  
+
                     if (error) {
                         throw error;
                     }
@@ -252,7 +247,7 @@ function addRole() {
                         deptID: chosenDept.id
                     },
                     (error, results) => {
-                        
+
                         if (error) {
                             throw error;
                         }
@@ -260,7 +255,7 @@ function addRole() {
                         // go back to the menu
                         mainMenu();
                     });
-                });
-        });
-    
-    }
+            });
+    });
+
+}
