@@ -138,55 +138,70 @@ function addEmployee() {
             if (err) {
                 throw err;
             }
-            const roleNames = rolesRes.map((row) => row.roleTitle)
-            inquirer
-                .prompt([
-                    {
-                        type: "input",
-                        message: "Enter new employee first name:",
-                        name: "firstName",
-                    },
-                    {
-                        type: "input",
-                        message: "Enter the new employee last name:",
-                        name: "lastName",
-                    },
-                    {
-                        type: "list",
-                        message: "Select department for this new employee:",
-                        name: "department",
-                        choices: deptNames,
-                    },
-                    {
-                        type: "list",
-                        message: "Select role for this new employee:",
-                        name: "role",
-                        choices: roleNames,
-                    }
-                ]).then((answers) => {
-                    const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
-                    const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
+            const roleNames = rolesRes.map((row) => row.roleTitle);
 
-                    const empQuery = "INSERT INTO employee_data SET ? ";
-                    connection.query(empQuery,
+            connection.query('SELECT CONCAT(firstName, " ", lastName) AS Name FROM employee_data', (err, empRes) => {
+                if (err) {
+                    throw err;
+                }
+                const empNames = empRes.map((row) => row.Name);
+
+                inquirer
+                    .prompt([
                         {
-                            firstName: answers.firstName,
-                            lastName: answers.lastName,
-                            roleID: chosenRole.id,
-                            deptID: chosenDept.id
+                            type: "input",
+                            message: "Enter new employee first name:",
+                            name: "firstName",
                         },
-                        (error, results) => {
+                        {
+                            type: "input",
+                            message: "Enter the new employee last name:",
+                            name: "lastName",
+                        },
+                        {
+                            type: "list",
+                            message: "Select department for this new employee:",
+                            name: "department",
+                            choices: deptNames,
+                        },
+                        {
+                            type: "list",
+                            message: "Select role for this new employee:",
+                            name: "role",
+                            choices: roleNames,
+                        },
+                        {
+                            type: "list",
+                            message: "Select a manager for this new employee:",
+                            name: "manager",
+                            choices: empNames,
+                        }
+                    ]).then((answers) => {
+                        const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
+                        const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
+                        const chosenBoss = empRes.find((row) => row.Name === answers.manager);
 
-                            if (error) {
-                                throw error;
-                            }
-                            console.log(answers.firstName + "" + answers.lastName + " added!");
-                            // go back to the menu
-                            mainMenu();
-                        });
-                });
+                        const empQuery = "INSERT INTO employee_data SET ? ";
+                        connection.query(empQuery,
+                            {
+                                firstName: answers.firstName,
+                                lastName: answers.lastName,
+                                roleID: chosenRole.id,
+                                deptID: chosenDept.id,
+                                managerID: chosenBoss.id,
+                            },
+                            (error, results) => {
+
+                                if (error) {
+                                    throw error;
+                                }
+                                console.log(answers.firstName + " " + answers.lastName + " added!");
+                                // go back to the menu
+                                mainMenu();
+                            });
+                    });
+            });
         });
-
     });
 }
 function addDepartment() {
