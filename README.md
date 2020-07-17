@@ -24,6 +24,7 @@ npm install console.table
 
 ## Usage
 [YouTube Link](https://youtu.be/AyRKDF5CSvI)
+![ScreenShot](https://github.com/jessicablank/employee-tracker/blob/master/homepage.PNG)
 
 Use the arrow keys to navigate the main menu. Experiment with viewing or updating the tables. 
 
