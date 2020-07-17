@@ -1,5 +1,8 @@
 # C.M.S. Employee Tracker
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[YouTube DEMO Link](https://youtu.be/AyRKDF5CSvI)
+
 ## Description:  
  A demonstration of a Content Management System for tracking employee information at a company. This command line interface displays data from three SQL tables and allows the user to add or update information in those tables. 
 
@@ -23,13 +26,13 @@ npm install console.table
 ```
 
 ## Usage
-[YouTube Link](https://youtu.be/AyRKDF5CSvI)
+
 ![ScreenShot](https://github.com/jessicablank/employee-tracker/blob/master/homepage.PNG)
 
 Use the arrow keys to navigate the main menu. Experiment with viewing or updating the tables. 
 
 ## Progress
-This project meets the requirements for a Minimum Viable Product; however, there is an active project page for the author to continue working on the project. The author plans to add functionality and make the code more DRY. 
+This project meets the requirements for a Minimum Viable Product; however, there is an active project page for the author to continue working on the project. The author plans to add functionality and make the code more DRY. The author recognizes the index.js file is currently very, very long. 
 
 ## Tests
 - WHEN the user chooses to view departments, roles, or employees, 
