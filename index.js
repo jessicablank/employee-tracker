@@ -3,6 +3,8 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 
+var figlet = require('figlet');
+
 // create a mysql connection
 const connection = mysql.createConnection({
     host: "localhost",
@@ -18,13 +20,24 @@ const connection = mysql.createConnection({
     database: "employee_DB",
 });
 
+
+
 connection.connect((err) => {
     if (err) {
-        console.log("Unable to connect to data source. Good bye.");
+        throw err;
     } else {
-        console.log("Connected")
-        mainMenu();
+        figlet('Employee C.M.S.', function(err, data) {
+            if (err) {
+                console.log('Something went wrong...');
+                console.dir(err);
+                return;
+            }
+            console.log(data)
+        });
+        
+         
     }
+    return mainMenu();
 });
 
 function mainMenu() {
@@ -35,6 +48,7 @@ function mainMenu() {
     const ADD_DEPARTMENT = "Add a new department";
     const ADD_ROLE = "Add a new role";
     const UPDATE_EMP_ROLE = "Update an employee's role";
+    
 
     inquirer
         .prompt({
@@ -102,12 +116,12 @@ function viewEmployees() {
 }
 
 function viewDepartments() {
-    //get all the departments
+    
     const departSql = `
     SELECT departmentName AS Departments FROM departments;
       `;
     connection.query(departSql, (error, results) => {
-        // display the results a formatted table
+        
         if (error) {
             throw error;
         }
@@ -122,7 +136,7 @@ function viewRoles() {
     SELECT roleTitle FROM roles_emp;
       `;
     connection.query(roleSql, (error, results) => {
-        // display the results a formatted table
+        
         if (error) {
             throw error;
         }
