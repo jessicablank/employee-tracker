@@ -34,6 +34,7 @@ function mainMenu() {
     const ADD_EMPLOYEE = "Add a new employee";
     const ADD_DEPARTMENT = "Add a new department";
     const ADD_ROLE = "Add a new role";
+    const UPDATE_EMP_ROLE = "Update an employee's role";
 
     inquirer
         .prompt({
@@ -47,6 +48,7 @@ function mainMenu() {
                 ADD_EMPLOYEE,
                 ADD_DEPARTMENT,
                 ADD_ROLE,
+                UPDATE_EMP_ROLE,
                 "EXIT",
             ],
         }).then((answer) => {
@@ -68,8 +70,12 @@ function mainMenu() {
             if (answer.action === ADD_ROLE) {
                 return addRole();
             }
+            if (answer.action === UPDATE_EMP_ROLE) {
+                return updateEmpRole();
+            }
             connection.end();
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.log(error);
             connection.end();
         });
@@ -112,7 +118,6 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-    //get all the roles
     const roleSql = `
     SELECT roleTitle FROM roles_emp;
       `;
@@ -273,4 +278,56 @@ function addRole() {
             });
     });
 
+}
+
+function updateEmpRole() {
+    connection.query("SELECT * FROM roles_emp", (err, rolesRes) => {
+        if (err) {
+            throw err;
+        }
+        const roleNames = rolesRes.map((row) => row.roleTitle);
+
+        connection.query('SELECT CONCAT(firstName, " ", lastName) AS Name FROM employee_data', (err, empRes) => {
+            if (err) {
+                throw err;
+            }
+            const empNames = empRes.map((row) => row.Name);
+
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "Select employee for role change:",
+                    name: "employee",
+                    choices: empNames,
+                },
+                {
+                    type: "list",
+                    message: "Select updated role:",
+                    name: "role",
+                    choices: roleNames,
+                },
+            ]).then((answers) => {
+                const updatedRole = rolesRes.find((row) => row.roleTitle === answers.role);
+                const updatedEmployee = empRes.find((row) => row.Name === answers.employee);
+
+                let query = "UPDATE employee_data SET ? WHERE ?";
+                connection.query(query,
+                    [
+                        {
+                            roleID: updatedRole.id,
+                        },
+                        {
+                            id: updatedEmployee.id
+                        }
+                    ],
+                    function (error) {
+                        if (error) throw error;
+
+                        console.log(" role changed!");
+                        mainMenu();
+
+                    });
+            });
+        });
+    });
 }
