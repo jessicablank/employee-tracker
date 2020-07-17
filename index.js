@@ -148,11 +148,11 @@ function addEmployee() {
             }
             const roleNames = rolesRes.map((row) => row.roleTitle);
 
-            connection.query('SELECT CONCAT(firstName, " ", lastName) AS Name FROM employee_data', (err, empRes) => {
+            connection.query('SELECT * FROM employee_data', (err, empRes) => {
                 if (err) {
                     throw err;
                 }
-                const empNames = empRes.map((row) => row.Name);
+                const empNames = empRes.map((row) => row.lastName);
 
                 inquirer
                     .prompt([
@@ -187,7 +187,7 @@ function addEmployee() {
                     ]).then((answers) => {
                         const chosenDept = deptRes.find((row) => row.departmentName === answers.department);
                         const chosenRole = rolesRes.find((row) => row.roleTitle === answers.role);
-                        const chosenBoss = empRes.find((row) => row.Name === answers.manager);
+                        const chosenBoss = empRes.find((row) => row.lastName === answers.manager);
 
                         const empQuery = "INSERT INTO employee_data SET ? ";
                         connection.query(empQuery,

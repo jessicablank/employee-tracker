@@ -23,6 +23,8 @@ npm install console.table
 ```
 
 ## Usage
+[YouTube Link](https://youtu.be/AyRKDF5CSvI)
+
 Use the arrow keys to navigate the main menu. Experiment with viewing or updating the tables. 
 
 ## Progress
