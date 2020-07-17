@@ -1,5 +1,5 @@
--- Starter Data on 15 July 2020 (Here if needed for back-up) --
-
+-- STARTER Data on 15 July 2020 (Here if needed for back-up) --
+-- FIRST run departments & roles_emp, THEN employee_data, THEN manager--
 INSERT INTO departments (departmentName) 
 VALUES 
 ("Operations"),
@@ -21,10 +21,10 @@ VALUES
 ("Starfleet Federation",10.00,1);
 
 
-
+-- RUN AFTER departments & roles_emp --
 INSERT INTO employee_data (firstName, lastName, roleID, deptID) 
 VALUES 
-("Starfleet", "Federation",1,8),
+("Starfleet", "Federation",8,1),
 ("Jake", "Sisko",1,5),
 ("Miles", "O'Brien",2,2), 
 ("Benjamin", "Sisko",3,3),

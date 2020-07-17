@@ -3,8 +3,6 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 
-var figlet = require('figlet');
-
 // create a mysql connection
 const connection = mysql.createConnection({
     host: "localhost",
@@ -24,20 +22,11 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) {
-        throw err;
+        console.log("Unable to connect to data source. Good bye.");
     } else {
-        figlet('Employee C.M.S.', function(err, data) {
-            if (err) {
-                console.log('Something went wrong...');
-                console.dir(err);
-                return;
-            }
-            console.log(data)
-        });
-        
-         
+        console.log("Connected")
+        mainMenu();
     }
-    return mainMenu();
 });
 
 function mainMenu() {

@@ -3,6 +3,8 @@
 ## Description:  
  A demonstration of a Content Management System for tracking employee information at a company. This command line interface displays data from three SQL tables and allows the user to add or update information in those tables. 
 
+ The user for this project would be a business owner wanting the ability to view and manage the departments, roles, and employees in the company. 
+
     
 ## Table of Contents:
 * [Installation](#installation-instructions)
@@ -13,12 +15,17 @@
 * [License](#license-info)
 
 ## Installation Instructions
-This project requires npm node modules, specifically npm inquirer, npm mysql, npm console table, and npm figlet. 
+This project requires npm node modules, specifically:
+```
+npm install inquirer
+npm install mysql
+npm install console.table 
+```
 
 ## Usage
-Use the arrow keys to navigate the main menu and experiment with viewing or updating the tables. 
+Use the arrow keys to navigate the main menu. Experiment with viewing or updating the tables. 
 
-## Usage
+## Progress
 This project meets the requirements for a Minimum Viable Product; however, there is an active project page for the author to continue working on the project. The author plans to add functionality and make the code more DRY. 
 
 ## Tests
